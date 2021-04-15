@@ -1,29 +1,18 @@
 #!/usr/bin/env bash
 # Bash script to setup a web server for the deployement of web_static.
 
-# Install Nginx if not already installed
-apt update -y >/dev/null 2>&1
-apt install nginx -y >/dev/null 2>&1
-
-# Create required directories if they don't exist
-mkdir -p /data/web_static/
-mkdir -p /data/web_static/releases/
-mkdir -p /data/web_static/shared/
+apt-get update -y
+apt-get install -y nginx
+service nginx start
 mkdir -p /data/web_static/releases/test/
-
-# Create fake index.html file
-echo -e "<html>\n\t<head>\n\t</head>\n\t<body>\n\t\tHolberton School\n\t</body>\n</html>" >/data/web_static/releases/test/index.html
-
-# Create the symbolic link
-ln -snf /data/web_static/releases/test /data/web_static/current
-
-# Change ownership of files and folders inside of /data folder
-chown -R ubuntu:ubuntu /data
-
-# Add alias to serve the content of /data/web_static/current to hbnb_static
-if ! grep -q 'location \/hbnb_static\/' /etc/nginx/sites-available/default; then
-	sed -i '/server_name _;/a\\n        location /hbnb_static/ {\n                alias /data/web_static/current/;\n        }' /etc/nginx/sites-available/default
-fi
-
-# Restart the nginx service
+mkdir -p /data/web_static/shared/ 
+echo "This is my sample content" > /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test /data/web_static/current 
+chown ubuntu:ubuntu -R /data/
+regex="^\tlocation+"
+location="\n\n\tlocation \/hbnb_static\/ \{\
+\n\t\talias \/data\/web_static\/current\/\;\
+\n\t\tautoindex off\;\
+\n\t\}"
+sed -i -r "s/$regex/$location\n\n\0/g" /etc/nginx/sites-enabled/default
 service nginx restart
