@@ -22,7 +22,7 @@ def do_pack():
     return None
 
 
-@hosts('34.73.100.0', '34.228.167.237')
+@hosts('35.227.3.110', '35.227.20.183')
 def do_deploy(archive_path):
     """
     - Upload the archive to the /tmp/ directory of the web server
@@ -78,7 +78,7 @@ def do_stress():
         local('touch ' + path)
 
 
-@hosts('34.73.100.0', '34.228.167.237')
+@hosts('35.227.3.110', '35.227.20.183')
 def do_clean(number=0):
     """
     deletes out-of-date archives.
