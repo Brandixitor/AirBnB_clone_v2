@@ -47,3 +47,4 @@ file_line { 'ADDING A LOCATION':
   notify  => Service['nginx'],
 }
 
+
