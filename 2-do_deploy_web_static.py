@@ -51,3 +51,4 @@ def do_deploy(archive_path):
     run('rm -rf /data/web_static/current')
     run('ln -s ' + release_path + ' /data/web_static/current')
     return True
+    
