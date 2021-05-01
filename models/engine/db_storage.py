@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage db storage for hbnb clone"""
-from os import getenv
+from os import getenv, remove
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -76,3 +76,7 @@ class DBStorage():
         s_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(s_factory)
         self.__session = Session()
+
+    def close(self):
+        """Handles close of DBStorage"""
+        self.__session.close()
