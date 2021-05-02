@@ -31,7 +31,6 @@ def states(id=None):
             if state.id == id:
                 return render_template('9-states.html', states=state)
         return render_template('9-states.html')
-    print(states)
     return render_template('9-states.html', states=states, full=True)
 
 
